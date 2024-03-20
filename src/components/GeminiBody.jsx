@@ -34,7 +34,7 @@ const GeminiBody = () => {
           <Image src={session.user.image} alt={session.user.image} width={30} height={30} className=" object-cover rounded-full" />
           <button className="px-4 py-1 text-white rounded-full text-sm bg-blue-500 " onClick={()=>signOut()}>Signout</button>
         </div> :
-           <button className="px-4 py-1 bg-blue-500 rounded-md">Login</button>
+           <Link href={"https://geminiai-jjum.vercel.app/login"} className="px-4 py-1 bg-blue-500 rounded-md">Login</Link>
 
         }
       </div>

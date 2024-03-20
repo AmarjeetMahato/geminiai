@@ -15,7 +15,7 @@ const Login = () => {
   const googleLogin = async () => {
         try {
          const res = await signIn("google",{
-           callbackUrl:"/"
+           callbackUrl:"https://geminiai-jjum.vercel.app/"
          });
         } catch (error) {
             console.log(error);  
