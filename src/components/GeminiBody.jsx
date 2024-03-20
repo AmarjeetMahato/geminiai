@@ -27,7 +27,7 @@ const GeminiBody = () => {
 
    const {data: session} = useSession() 
   return (
-    <div className="flex-1 max-w-6xl mx-auto min-h-[100vh] pb-[15vh] relative">
+    <div className="flex-1   md:max-w-6xl  max-w-3xl mx-auto min-h-[100vh] pb-[15vh] relative">
       <div className="flex items-center justify-between p-5 text-xl text-gray-400">
         <p>Gemini</p>
         {session ? <div className="flex items-center gap-2">
