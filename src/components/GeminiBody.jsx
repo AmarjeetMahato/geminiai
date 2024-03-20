@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { Context } from "@/context/ContextProvider";
 import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
 
 const GeminiBody = () => {
   const {
@@ -24,25 +25,32 @@ const GeminiBody = () => {
     setInput,
   } = useContext(Context);
 
+   const {data: session} = useSession() 
   return (
-    <div className="flex-1 min-h-[100vh] pb-[15vh] relative">
+    <div className="flex-1 max-w-6xl mx-auto min-h-[100vh] pb-[15vh] relative">
       <div className="flex items-center justify-between p-5 text-xl text-gray-400">
-        <p>Gimini</p>
-        <CircleUserRound size={30} className="text-softTextColor" />
+        <p>Gemini</p>
+        {session ? <div className="flex items-center gap-2">
+          <Image src={session.user.image} alt={session.user.image} width={30} height={30} className=" object-cover rounded-full" />
+          <button className="px-4 py-1 text-white rounded-full text-sm bg-blue-500 " onClick={()=>signOut()}>Signout</button>
+        </div> :
+           <button className="px-4 py-1 bg-blue-500 rounded-md">Login</button>
+
+        }
       </div>
       <div className="max-w-[900px] m-auto">
         {!displayResult ? (
           <>
-            <div className="my-12 text-5xl font-medium p-5 flex flex-col ">
+          { session && <div className="my-12 text-5xl font-medium p-5 flex flex-col ">
               <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r  from-purple-500 to-pink-400">
-                Hello, Amar
+                Hello, {session.user.name}
               </p>
               <p className="font-bold text-gray-600">
                 How can I help you today?
               </p>
-            </div>
+            </div>}
 
-            <div className="grid grid-cols-4 gap-4  p-5">
+            <div className="grid grid-cols-2 md:grid-cols-4  gap-4  p-5">
               <div className="h-48 p-4 bg-bgSecondaryColor  rounded-xl relative cursor-pointer">
                 <p>
                   Rewrite the text below to fix any grammar and spelling
@@ -79,8 +87,8 @@ const GeminiBody = () => {
         ) : (
           <div className="result">
             <div className="my-10 flex items-center gap-5">
-              <CircleUserRound size={40} className="text-softTextColor" />
-              <p>{recentPrompts}</p>
+             {session &&   <Image src={session.user.image} className='object-cover rounded-full' width={40} height={40} alt={session?.user.image} />}
+              <p className="text-gray-500">{recentPrompts}?</p>
             </div>
              <div className="flex items-start gap-5">
                 <Image width={50} height={50} src="/gemini.png" alt="gemini.png" />
@@ -92,8 +100,8 @@ const GeminiBody = () => {
           </div>
         )}
 
-        <div className=" absolute bottom-0 w-full max-w-[900px] px-5 m-auto">
-          <form action={submit}>
+        <div className=" z-50   fixed  bottom-0 w-full max-w-[900px] px-5 m-auto">
+          <form  action={submit}>
             <div className="flex items-center justify-between gap-5 bg-bgSecondaryColor py-2.5 px-5 rounded-full">
               <input
                onChange={(e)=> setInput(e.target.value)}
@@ -107,7 +115,7 @@ const GeminiBody = () => {
             </div>
           </form>
 
-          <p className="text-gray-400 text-sm text-center p-3">
+          <p className="text-gray-400 bg-[#131314] text-sm text-center p-3">
             Gemini may display inaccurate info, including about people, so
             double-check its responses.{" "}
             <Link

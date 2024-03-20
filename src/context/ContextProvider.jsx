@@ -22,6 +22,7 @@ const ContextProvider = ({ children }) => {
   };
   // on submit
   const submit = async (prompt) => {
+  
     setLoading(true);
     setResult("");
     setDisplayResult(true);
